@@ -11,6 +11,9 @@ dotenv.config()
 // Configurar la app
 const app = express()
 
+// Leer datos via body
+app.use(express.json())
+
 // Conectar a la base de datos
 db()
 
@@ -22,5 +25,5 @@ const PORT = process.env.PORT || 4000
 
 //Arrancar la app
 app.listen(PORT, () => {
-  console.log( colors.blue(`Server running on port ${PORT}`))
+  console.log( colors.blue(`El servidor se está ejecutando en el puerto: ${PORT}`))
 })
