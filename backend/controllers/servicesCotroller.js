@@ -1,7 +1,7 @@
 import { services } from '../data/beautyServices.js'
 import Services from '../models/Services.js'
 import mongoose from 'mongoose'
-import { validateObjectId } from '../utils/index.js'
+import { validateObjectId, handleNotFoundError } from '../utils/index.js'
 
 const createService = async (req, res) => {
   if(Object.values(req.body).includes('')) {
@@ -36,11 +36,7 @@ const getServiceById = async (req, res) => {
   const service = await Services.findById(id)
 
   if(!service) {
-    const error = new Error('El servicio no existe')
-
-    return res.status(404).json({
-      msg: error.message
-    })
+    return handleNotFoundError('El servicio no existe', res)
   }
 
   // Mostrar el servicio
@@ -57,11 +53,7 @@ const updateService = async (req, res) => {
   const service = await Services.findById(id)
 
   if(!service) {
-    const error = new Error('El servicio no existe')
-
-    return res.status(404).json({
-      msg: error.message
-    })
+    return handleNotFoundError('El servicio no existe', res)
   }
 
   // Escribimos en el objeto los valores nuevos
