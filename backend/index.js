@@ -2,6 +2,7 @@
 import express from 'express' // ES6
 import dotenv from 'dotenv'
 import colors from 'colors'
+import cors from 'cors'
 import { db } from './config/db.js'
 import servicesRoutes from './routes/servicesRoutes.js'
 
@@ -16,6 +17,27 @@ app.use(express.json())
 
 // Conectar a la base de datos
 db()
+
+// Configurar CORS
+const whitelist = [process.env.FRONTEND_URL]
+
+if(process.argv[2] === '--insomnia') {
+  whitelist.push(undefined)
+}
+
+const corsOptions = {
+  origin: function(origin, callback) {
+    if(whitelist.includes(origin)) {
+      // Permite la conexion
+      callback(null, true)
+    } else {
+      // No permitir la conexion
+      callback(new Error('Error de CORS'))
+    }
+  }
+}
+
+app.use(cors(corsOptions))
 
 // Definir una ruta
 app.use('/api/services', servicesRoutes)
