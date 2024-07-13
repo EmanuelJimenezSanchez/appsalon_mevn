@@ -23,6 +23,7 @@ export const useAppointmentsStore = defineStore('appointments', ()  => {
   })
 
   return {
+    services,
     onServiceSelected,
     isServiceSelected
   }

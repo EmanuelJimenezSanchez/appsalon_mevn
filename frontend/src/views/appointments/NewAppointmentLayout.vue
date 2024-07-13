@@ -24,6 +24,8 @@
     </RouterLink>
   </nav>
 
-  <RouterView />
+  <div class="space-y-5">
+    <RouterView />
+  </div>
 </template>
 
