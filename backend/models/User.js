@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
-import { uniqueId } from '../utils'
+import bcrypt from 'bcrypt'
+import { uniqueId } from '../utils/index.js'
 
 const userSchema = mongoose.Schema({
   name: {
@@ -16,11 +17,12 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    unique: true
+    unique: true,
+    lowercase: true
   },
   token: {
     type: String,
-    default: () => uniqueId
+    default: () => uniqueId()
   },
   verified: {
     type: Boolean,
@@ -32,6 +34,15 @@ const userSchema = mongoose.Schema({
   }
 })
 
-const User = moongose.model('User', userSchema)
+userSchema.pre('save', async function (next) {
+  if(!this.isModified('password')) {
+    next()
+  }
+
+  const salt = await bcrypt.genSalt(10)
+  this.password = await bcrypt.hash(this.password, salt)
+})
+
+const User = mongoose.model('User', userSchema)
 
 export default User
