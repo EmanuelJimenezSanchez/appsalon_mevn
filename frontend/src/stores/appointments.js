@@ -1,5 +1,8 @@
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, inject } from 'vue'
 import { defineStore } from 'pinia'
+import { useRoute, useRouter } from 'vue-router'
+import AppointmentAPI from '../api/AppointmentAPI'
+import { convertToISO } from '../helpers/date'
 
 export const useAppointmentsStore = defineStore('appointments', ()  => {
 
@@ -7,6 +10,9 @@ export const useAppointmentsStore = defineStore('appointments', ()  => {
   const date = ref('')
   const hours = ref([])
   const time = ref('')
+
+  const toast = inject('toast')
+  const router = useRouter()
 
   onMounted(() => {
     const startHour = 10
@@ -30,15 +36,27 @@ export const useAppointmentsStore = defineStore('appointments', ()  => {
     
   }
 
-  function createAppointment() {
+  async function createAppointment() {
     const appointment = {
       services: services.value.map( service => service._id ),
-      date: date.value,
+      date: convertToISO(date.value),
       time: time.value,
       totalAmount: totalAmount.value,
     }
 
-    console.log(appointment)
+    const { data } = await AppointmentAPI.create(appointment)
+    toast.open({
+      message: data.msg,
+      type: 'success'
+    })
+    clearAppointmentData()
+    router.push({name: 'my-appointments'})
+  }
+
+  function clearAppointmentData() {
+    services.value = []
+    date.value = ''
+    time.value = ''
   }
 
   const isServiceSelected = computed(() => {
