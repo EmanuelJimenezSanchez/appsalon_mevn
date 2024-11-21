@@ -33,7 +33,7 @@ const handleSubmit = async (formData) => {
       @submit="handleSubmit"
     >
 
-      <FormKit 
+      <FormKit
         type="email"
         label="Email"
         name="email"
@@ -45,7 +45,7 @@ const handleSubmit = async (formData) => {
         }"
       />
 
-      <FormKit 
+      <FormKit
         type="password"
         label="Password"
         name="password"

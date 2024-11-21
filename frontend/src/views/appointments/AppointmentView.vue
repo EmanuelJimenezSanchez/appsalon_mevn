@@ -35,14 +35,14 @@
       v-model="appointments.date"
     />
 
-    <p class="text-right text-white text-2xl">Total a pagar: 
+    <p class="text-right text-white text-2xl">Total a pagar:
       <span class="font-black">{{ formatCurrency(appointments.totalAmount) }}</span>
     </p>
   </div>
 
   <div class="space-y-8" v-if="!appointments.noServicesSelected">
     <h3 class="text-3xl font-extrabold text-white">Fecha y Hora</h3>
-    
+
     <div class="lg:flex gap-5 items-start">
       <div class="w-full lg:w-96 bg-white flex justify-center rounded-lg">
         <VueTailwindDatepicker
@@ -55,12 +55,13 @@
           v-model="appointments.date"
         />
       </div>
-      <div class="flex-1 grid grid-cold-1 xl:grid-cols-2 gap-5 mt-10 lg:mt-0">
+      <div v-if="appointments.isDateSelected" class="flex-1 grid grid-cold-1 xl:grid-cols-2 gap-5 mt-10 lg:mt-0">
         <button
           v-for="hour in appointments.hours"
-          class="block rounded-lg text-xl font-black p-3"
+          class="block rounded-lg text-xl font-black p-3 disabled:opacity-10"
           :class="appointments.time === hour ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'"
           @click="appointments.time = hour"
+          :disabled="appointments.disableTime(hour) ? true : false"
         >
           {{ hour }}
         </button>

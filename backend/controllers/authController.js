@@ -3,7 +3,7 @@ import { sendEmailVerification } from '../emails/autjEmailService.js'
 import { generateJWT } from '../utils/index.js'
 
 const register = async (req, res) => {
-  
+
   // Valida todos los campos
   if(Object.values(req.body).includes('')) {
     const error = new Error('Todos los campos son obligatorios')
@@ -13,12 +13,12 @@ const register = async (req, res) => {
   const { email, password, name } = req.body
   // Evitar registros duplicados
   const userExists = await User.findOne({ email })
-  
+
   if(userExists) {
     const error = new Error('Usuario ya registrado')
     return res.status(400).json({ msg: error.message })
   }
-  
+
   // Validar la extensión del password
   const MIN_PASSWORD_LENGTH = 8
 
@@ -68,7 +68,7 @@ const login = async (req, res) => {
 
   // Revisar que el usuario exista
   const user = await User.findOne({email})
-  
+
   if(!user) {
     const error = new Error('El Usuario no existe')
     return res.status(401).json({msg: error.message})

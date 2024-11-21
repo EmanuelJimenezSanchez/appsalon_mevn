@@ -37,6 +37,10 @@ const router = createRouter({
               component: () => import('../views/appointments/AppointmentView.vue')
             },
           ]
+        },
+        {
+          path: ':id/editar',
+          component: () => import('../views/appointments/EditAppointmentLayout.vue')
         }
       ]
     },
