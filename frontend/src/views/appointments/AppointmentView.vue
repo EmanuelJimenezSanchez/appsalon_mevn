@@ -59,7 +59,7 @@
         <button
           v-for="hour in appointments.hours"
           class="block rounded-lg text-xl font-black p-3 disabled:opacity-10"
-          :class="appointments.time === hour ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'"
+          :class="appointments.time === hour ? 'bg-blue-500 text-white' : 'bg-white'"
           @click="appointments.time = hour"
           :disabled="appointments.disableTime(hour) ? true : false"
         >
@@ -71,7 +71,7 @@
     <div v-if="appointments.isValidReservation" class="flex justify-end">
       <button
         class="w-full md:w-auto bg-blue-500 p-3 rounded-lg uppercase font-extrabold text-white"
-        @click="appointments.createAppointment"
+        @click="appointments.saveAppointment"
       >
         Confirmar Reservación
       </button>

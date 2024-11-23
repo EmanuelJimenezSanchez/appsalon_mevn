@@ -40,7 +40,19 @@ const router = createRouter({
         },
         {
           path: ':id/editar',
-          component: () => import('../views/appointments/EditAppointmentLayout.vue')
+          component: () => import('../views/appointments/EditAppointmentLayout.vue'),
+          children: [
+            {
+              path: '',
+              name: 'edit-appointment',
+              component: () => import('../views/appointments/ServicesView.vue')
+            },
+            {
+              path: 'detalles',
+              name: 'edit-appointment-details',
+              component: () => import('../views/appointments/AppointmentView.vue')
+            },
+          ]
         }
       ]
     },
@@ -63,6 +75,16 @@ const router = createRouter({
           path: 'login',
           name: 'login',
           component: () => import('../views/auth/LoginView.vue'),
+        },
+        {
+          path: 'olvide-password',
+          name: 'forgot-password',
+          component: () => import('../views/auth/ForgotPasswordView.vue'),
+        },
+        {
+          path: 'olvide-password/:token',
+          name: 'new-password',
+          component: () => import('../views/auth/NewPasswordView.vue'),
         },
       ]
     }
